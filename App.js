@@ -2,23 +2,6 @@ import React from 'react';
 import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo';
 
-function getPoster(title) {
-  var url = 'http://www.omdbapi.com/?apikey=';
-  var apikey = '8330622';
-  title = title.split(' ').join('+');
-  url +=apikey+'&t='+title; 
-  return fetch(url)
-  .then((response) => response.json())
-  .then((responseJson) => {
-    console.log(responseJson.Poster);
-    return responseJson.Poster;
-  })
-   .catch((error) => {
-    console.error(error);
-    return 'http://www.piniswiss.com/wp-content/uploads/2013/05/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef-300x199.png'
-  });
-}
-
 export default class App extends React.Component {
 static navigationOptions = {
         header: null
@@ -34,7 +17,7 @@ componentDidMount(){
   .then((responseJson) => {
     this.setState({
       isLoading: false,
-      dataSource: responseJson.MediaContainer.Video,
+      dataSource: responseJson,
     }, function(responseJson){
     });
   })
@@ -79,7 +62,7 @@ componentDidMount(){
             return data[index]
           }}
            keyExtractor={(item, index) =>{
-            return item.key
+            return item.Title
            }}
            initialNumToRender = { 4 }
            updateCellsBatchingPeriod = { 1 }
@@ -88,7 +71,7 @@ componentDidMount(){
               return (
                 <View style={{height:50}}>
                 
-                <Text style={{color: 'white'}}>{item.title}</Text>
+                <Text style={{color: 'white'}}>{item.Title}</Text>
                 </View>
               )
             }

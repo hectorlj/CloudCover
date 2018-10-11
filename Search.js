@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
-import { ActivityIndicator,VirtualizedList, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { ActivityIndicator,VirtualizedList, Image, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { LinearGradient } from 'expo';
 import {SearchBar} from 'react-native-elements';
 
-function getPoster(title) {
-  var url = 'http://www.omdbapi.com/?apikey=';
-  var apikey = '8330622';
-  title = title.split(' ').join('+');
-  url +=apikey+'&t='+title; 
-  return fetch(url)
-  .then((response) => response.json())
-  .then((responseJson) => {
-    console.log(responseJson.Poster);
-    return responseJson.Poster;
-  })
-   .catch((error) => {
-    console.error(error);
-    return 'http://www.piniswiss.com/wp-content/uploads/2013/05/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef-300x199.png'
-  });
-}
+var list = [];
 
+function searchlist(text, source){
+  console.log(text);
+  console.log(source);
+}
 export default class Search extends Component {
 static navigationOptions = {
         header: <View>
-        <SearchBar lightTheme/>
+        <SearchBar lightTheme
+        onChangeText={(text) => searchlist(text,this.state.dataSource)}
+        onClear = {() => list = []}
+        placeholder='Search...'
+        />
         </View>
     }
 
@@ -38,7 +31,7 @@ componentDidMount(){
   .then((responseJson) => {
     this.setState({
       isLoading: false,
-      dataSource: responseJson.MediaContainer.Video,
+      dataSource: responseJson,
     }, function(responseJson){
 
     });
@@ -69,28 +62,38 @@ componentDidMount(){
           <VirtualizedList
            style={{flex:1, paddingTop: 50, paddingLeft: 2, paddingRight: 2}}
            horizontal={false}
-           maxToRenderPerBatch={4}
-           data = {this.state.dataSource}
+           maxToRenderPerBatch={20}
+           data = {list}
            getItemCount={(data) => {
-            return 401
+            return 0
           }}
            getItem={(data, index) => {
             return data[index]
           }}
            keyExtractor={(item, index) =>{
-            return item.key
+            return item.Title
            }}
-           initialNumToRender = { 4 }
-           updateCellsBatchingPeriod = { 1 }
+           initialNumToRender = { 10 }
            windowSize={4}
            renderItem = {({item}) => {
               return (
-                <View style={{flexDirection: 'row', flex:1 ,height:100, padding:5}}>
-                
+                <View style={{flexDirection: 'row', flex:1 ,height:200, padding:5}}>
+                <View 
+                style= {{flexDirection:'column', width:225,}}>
+               <Text style={{fontSize: 20, color: 'white', paddingLeft:2}}>{item.Title}</Text>
                 <Text
                  numberOfLines={4}
-                 style={{color: 'white', width:250, paddingLeft:2}}>{item.summary}</Text>
-                <Text style={{color: 'white', paddingLeft:2}}>{item.title}</Text>
+                 style={{fontSize: 15, color: 'white', paddingLeft:2}}>{item.Plot}</Text>
+                
+                </View>
+                <View
+                  style={{flexDirection: 'column'}}
+                >
+                <Image
+                  source = {{uri: item.Poster}}
+                  style={{height: 150, width: 125}}
+                />
+                </View>
 
                 </View>
               )
