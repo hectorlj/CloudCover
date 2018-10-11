@@ -1,7 +1,6 @@
 import React from 'react';
-import {WebView,VirtualizedList, Image, ScrollView,FlatList, ActivityIndicator, Button,StyleSheet, Text, View } from 'react-native';
+import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo';
-
 
 function getPoster(title) {
   var url = 'http://www.omdbapi.com/?apikey=';
@@ -21,7 +20,9 @@ function getPoster(title) {
 }
 
 export default class App extends React.Component {
-
+static navigationOptions = {
+        header: null
+    }
 constructor(props){
   super(props);
   this.state = {isLoading: true}
@@ -52,7 +53,10 @@ componentDidMount(){
       )
     }
     return (
+
       <View style={styles.container}>
+                  <StatusBar hidden />
+
         <LinearGradient
           colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
           style={{
