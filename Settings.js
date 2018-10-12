@@ -29,12 +29,15 @@ export default class Settings extends Component {
       <Text style={styles.text}>Netflix</Text> 
       <Switch
         onValueChange = {() => {
-          if (global.filters['netflix'])
-            return global.filters['netflix'] == false;
+          console.log((global.filters)['netflix']);
+          (global.filters)['netflix'] == true;
+          console.log((global.filters)['netflix']);
+          if ((global.filters)['netflix'])
+            return (global.filters)['netflix'] == false;
           else
-            return global.filters['netflix'] == true;
+            return (global.filters)['netflix'] == true;
          }}
-        value = {global.filters['netflix']}
+        value = {(global.filters)['netflix']}
       />
       </View>
       <Text style={styles.text}>Hulu</Text>
