@@ -2,23 +2,6 @@ import React from 'react';
 import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo';
 
-<<<<<<< HEAD
-// async function getPoster(title) {
-//   var url = 'http://www.omdbapi.com/?apikey=';
-//   var apikey = '8330622';
-//   title = title.split(' ').join('+');
-//   url +=apikey+'&t='+title; 
-//   return await fetch(url)
-//   .then((response) => response.json())
-//   .then((responseJson) => {
-//     return responseJson.Poster
-// })
-//   .catch((error) => {
-//     console.error(error);
-//     return 'http://www.piniswiss.com/wp-content/uploads/2013/05/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef-300x199.png'
-// });
-// }
-
 global.filters = {'plex' : true, 'hulu' : true, 'netflix' : false, 'amazon' : false}
 
 function concatServices(responseJson){
@@ -61,7 +44,9 @@ function concatServices(responseJson){
 }
 
 export default class App extends React.Component {
-
+static navigationOptions = {
+        header: null
+    }
   constructor(props){
     super(props);
     this.state = {isLoading: true}
@@ -79,26 +64,6 @@ componentDidMount(){
         }, 
         function(responseJson){
         });
-=======
-export default class App extends React.Component {
-static navigationOptions = {
-        header: null
-    }
-constructor(props){
-  super(props);
-  this.state = {isLoading: true}
-}
-
-componentDidMount(){
-  return fetch('https://codegarage.org/plex/allmovies.json')
-  .then((response) => response.json())
-  .then((responseJson) => {
-    this.setState({
-      isLoading: false,
-      dataSource: responseJson,
-    }, function(responseJson){
-    });
->>>>>>> 834074c960de30c26bfcdafe134b9395b0830ae2
   })
     .catch((error) => {
       console.error(error);
@@ -116,9 +81,8 @@ render() {
         )
     }
     return (
-<<<<<<< HEAD
         <View style={styles.container}>
-
+          <StatusBar hidden/>
             <LinearGradient
                 colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
                 style={{
@@ -160,52 +124,7 @@ render() {
                 />
             </LinearGradient>
         </View>
-=======
-
-      <View style={styles.container}>
-                  <StatusBar hidden />
-
-        <LinearGradient
-          colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
-          style={{
-            position: 'absolute',
-            left:0,
-            right:0,
-            bottom:0,
-            top:0
-          }} >
-
-          <VirtualizedList
-           style={{flex:1, paddingTop: 50, paddingLeft: 2, paddingRight: 2}}
-           horizontal={true}
-           maxToRenderPerBatch={4}
-           data = {this.state.dataSource}
-           getItemCount={(data) => {
-            return 401
-          }}
-           getItem={(data, index) => {
-            return data[index]
-          }}
-           keyExtractor={(item, index) =>{
-            return item.Title
-           }}
-           initialNumToRender = { 4 }
-           updateCellsBatchingPeriod = { 1 }
-           windowSize={4}
-           renderItem = {({item}) => {
-              return (
-                <View style={{height:50}}>
-                
-                <Text style={{color: 'white'}}>{item.Title}</Text>
-                </View>
-              )
-            }
-           }
-           />
-        </LinearGradient>
-      </View>
->>>>>>> 834074c960de30c26bfcdafe134b9395b0830ae2
-    );
+            );
 }
 }
 

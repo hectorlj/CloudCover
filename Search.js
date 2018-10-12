@@ -3,41 +3,88 @@ import { ActivityIndicator,VirtualizedList, Image, View, Text, StyleSheet, Touch
 import { LinearGradient } from 'expo';
 import {SearchBar} from 'react-native-elements';
 
+function concatServices(responseJson){
+    var currentMovies = []
+    var plex = []
+    var hulu = []
+    var netflix = []
+    var amazon = []
+    var returnArray = []
+    for (i in responseJson) {
+        if (i % 4 == 0)
+            plex.push(i)
+        else if (i % 3 == 0) 
+            hulu.push(i)
+        else if (i % 2 == 0)
+            netflix.push(i)
+        else
+            amazon.push(i)
+    }
+
+    if ((global.filters)['plex'] == true)
+        currentMovies = currentMovies.concat(plex)
+    if ((global.filters)['hulu'] == true)
+        currentMovies = currentMovies.concat(hulu)
+    if ((global.filters)['netflix'] == true)
+        currentMovies = currentMovies.concat(netflix)
+    if ((global.filters)['amazon'] == true)
+        currentMovies = currentMovies.concat(amazon)
+
+    currentMovies.sort(function(a, b) {
+        return parseInt(a) - parseInt(b)
+    });
+
+    currentMovies.forEach(function(i) {
+        console.log(i)
+        returnArray.push(responseJson[i])
+    });
+
+    return returnArray
+}
 var list = [];
+var moviesList;
 
 function searchlist(text, source){
-  console.log(text);
-  console.log(source);
+  for(var key in source){
+    if(key.contains(text)){
+      list.push(source.key);
+      console.log(source.key);
+    }
+  }
 }
 export default class Search extends Component {
 static navigationOptions = {
         header: <View>
         <SearchBar lightTheme
-        onChangeText={(text) => searchlist(text,this.state.dataSource)}
+        onChangeText={(text) => searchlist(text, moviesList)}
         onClear = {() => list = []}
         placeholder='Search...'
+        
         />
         </View>
     }
-
-constructor(props){
-  super(props);
-  this.state = {isLoading: true}
+  constructor(props){
+    super(props);
+    this.state = {isLoading: true}
 }
 
 componentDidMount(){
-  return fetch('https://codegarage.org/plex/allmovies.json')
-  .then((response) => response.json())
-  .then((responseJson) => {
-    this.setState({
-      isLoading: false,
-      dataSource: responseJson,
-    }, function(responseJson){
-
-    });
+    return fetch('https://codegarage.org/plex/allmovies.json')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      
+        var currentMovies = concatServices(responseJson)
+        moviesList = currentMovies
+        this.setState({
+            isLoading: false,
+            currentMovies: currentMovies
+        }, 
+        function(responseJson){
+          
+        });
   })
-  .catch((error) => {
-    console.error(error);
+    .catch((error) => {
+      console.error(error);
   });
 }
   render () {
