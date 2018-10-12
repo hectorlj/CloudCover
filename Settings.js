@@ -14,10 +14,16 @@ export default class Settings extends Component {
     }
   render () {
     return (
-      <View style={styles.container}>
-      <View style = {{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text style={styles.header}>Settings</Text>
-      </View>
+       <LinearGradient
+        colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
+        style={{
+            position: 'absolute',
+            left:0,
+            right:0,
+            bottom:0,
+            top:0
+        }}>
+      <Text style={{paddingTop: 50, paddingLeft: 10, color: 'white', fontSize: 25}}>Settings</Text>
       <View style={styles.container} >
       <View style={{ flexDirection: 'row'}}>
       <Text style={styles.text}>Netflix</Text> 
@@ -35,7 +41,7 @@ export default class Settings extends Component {
       <Text style={styles.text}>Prime</Text>
       <Text style={styles.text}>Plex</Text>
       </View>
-      </View>
+      </LinearGradient>
     )
   };
 }
@@ -51,9 +57,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     position: 'absolute',
-    top: 15
+    top: 15,
+    color: 'white'
   },
   text: {
+    color: 'white',
     fontSize: 15,
   },
 });

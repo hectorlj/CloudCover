@@ -59,7 +59,10 @@ static navigationOptions = {
         onChangeText={(text) => searchlist(text, moviesList)}
         onClear = {() => list = []}
         placeholder='Search...'
-        
+        style = {{
+          position: 'absolute',
+          top: 15
+        }}
         />
         </View>
     }
