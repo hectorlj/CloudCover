@@ -8,7 +8,20 @@ import {
 } from 'react-native'
 import { LinearGradient } from 'expo'
 
+
 export default class Settings extends Component {
+  state = {
+    netflix: true,
+    hulu:false,
+    prime:true,
+    plex:false
+
+  };
+    _handleToggleSwitch = () =>
+    this.setState(state => ({
+      switchValue: !state.switchValue,
+    }));
+
   static navigationOptions = {
         header: null
     }
@@ -28,21 +41,46 @@ export default class Settings extends Component {
       <View style={{ flexDirection: 'row'}}>
       <Text style={styles.text}>Netflix</Text> 
       <Switch
-        onValueChange = {() => {
-          console.log((global.filters)['netflix']);
-          (global.filters)['netflix'] == true;
-          console.log((global.filters)['netflix']);
-          if ((global.filters)['netflix'])
-            return (global.filters)['netflix'] == false;
-          else
-            return (global.filters)['netflix'] == true;
-         }}
-        value = {(global.filters)['netflix']}
+        onValueChange = {() =>
+    this.setState(state => ({
+      netflix: !state.netflix,
+    }))}
+        value = {this.state.netflix}
       />
       </View>
-      <Text style={styles.text}>Hulu</Text>
-      <Text style={styles.text}>Prime</Text>
-      <Text style={styles.text}>Plex</Text>
+
+      <View style={{ flexDirection: 'row'}}>
+      <Text style={styles.text}>Hulu</Text> 
+      <Switch
+        onValueChange = {() =>
+    this.setState(state => ({
+      hulu: !state.hulu,
+    }))}
+        value = {this.state.hulu}
+      />
+      </View>
+
+      <View style={{ flexDirection: 'row'}}>
+      <Text style={styles.text}>Plex</Text> 
+      <Switch
+        onValueChange = {() =>
+    this.setState(state => ({
+      plex: !state.plex,
+    }))}
+        value = {this.state.plex}
+      />
+      </View>
+
+      <View style={{ flexDirection: 'row'}}>
+      <Text style={styles.text}>Prime</Text> 
+      <Switch
+        onValueChange = {() =>
+    this.setState(state => ({
+      prime: !state.prime,
+    }))}
+        value = {this.state.prime}
+      />
+      </View>
       </View>
       </LinearGradient>
     )
@@ -66,5 +104,6 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 15,
+    paddingRight: 15
   },
 });
