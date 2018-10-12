@@ -4,8 +4,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Switch
 } from 'react-native'
-import { LinearGradient, Switch } from 'expo'
+import { LinearGradient } from 'expo'
 
 export default class Settings extends Component {
   static navigationOptions = {

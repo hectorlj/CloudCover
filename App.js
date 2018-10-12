@@ -44,34 +44,6 @@ function concatServices(responseJson) {
     return returnArray
 }
 
-<<<<<<< HEAD
-export default class App extends React.Component {
-static navigationOptions = {
-        header: null
-    }
-  constructor(props){
-    super(props);
-    this.state = {isLoading: true}
-}
-
-componentDidMount(){
-    return fetch('https://codegarage.org/plex/allmovies.json')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      
-        var currentMovies = concatServices(responseJson)
-        this.setState({
-            isLoading: false,
-            currentMovies: currentMovies
-        }, 
-        function(responseJson){
-        });
-  })
-    .catch((error) => {
-      console.error(error);
-  });
-}
-=======
 function getContinue(responseJson) {
     var returnArray = []
     for (i in responseJson) {
@@ -95,7 +67,6 @@ function getYourList(responseJson) {
 }
 
 export default class App extends React.Component {
->>>>>>> 584754e29159a1c1474d8d0e27cf13cf7b6f8439
 
     static navigationOptions = {
         header: null
@@ -127,11 +98,6 @@ export default class App extends React.Component {
             console.error(error)
         });
     }
-<<<<<<< HEAD
-    return (
-        <View style={styles.container}>
-          <StatusBar hidden/>
-=======
 
     render() {
         if (this.state.isLoading){
@@ -144,7 +110,6 @@ export default class App extends React.Component {
         return (
             // <View style={styles.container}>
             
->>>>>>> 584754e29159a1c1474d8d0e27cf13cf7b6f8439
             <LinearGradient
             colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
             style={{
