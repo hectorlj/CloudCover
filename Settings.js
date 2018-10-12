@@ -4,14 +4,19 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Switch
+  Switch,
+  Image,
+  TouchableHighlight
 } from 'react-native'
 import { LinearGradient } from 'expo'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { toggleService } from './Actions';
 
-export default class Settings extends Component {
+class Settings extends Component {
   static navigationOptions = {
-        header: null
-    }
+      header: null
+  }
   render () {
     return (
        <LinearGradient
@@ -26,23 +31,31 @@ export default class Settings extends Component {
       <Text style={{paddingTop: 50, paddingLeft: 10, color: 'white', fontSize: 25}}>Settings</Text>
       <View style={styles.container} >
       <View style={{ flexDirection: 'row'}}>
-      <Text style={styles.text}>Netflix</Text> 
-      <Switch
-        onValueChange = {() => {
-          console.log((global.filters)['netflix']);
-          (global.filters)['netflix'] == true;
-          console.log((global.filters)['netflix']);
-          if ((global.filters)['netflix'])
-            return (global.filters)['netflix'] == false;
-          else
-            return (global.filters)['netflix'] == true;
-         }}
-        value = {(global.filters)['netflix']}
-      />
       </View>
-      <Text style={styles.text}>Hulu</Text>
-      <Text style={styles.text}>Prime</Text>
-      <Text style={styles.text}>Plex</Text>
+        <TouchableHighlight onPress={() => {this.props.toggleService('netflix')}}>
+          <Image
+            style={{width: 60, height: 60, margin: 20}}
+            source={require('./assets/netflix.png')}
+          />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => {this.props.toggleService('hulu')}}>
+        <Image
+          style={{width: 60, height: 60, margin: 20}}
+          source={require('./assets/Hulu.png')}
+        />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => {this.props.toggleService('amazon')}}>
+           <Image
+             style={{width: 60, height: 60, margin: 20}}
+             source={require('./assets/prime.png')}
+           />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => {this.props.toggleService('plex')}}>
+           <Image
+             style={{width: 60, height: 60, margin: 20}}
+             source={require('./assets/Plex.png')}
+           />
+        </TouchableHighlight>     
       </View>
       </LinearGradient>
     )
@@ -68,3 +81,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+const mapStateToProps = (state) => {
+    const { content } = state
+    return { content }
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    toggleService,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

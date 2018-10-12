@@ -3,6 +3,12 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon, LinearGradient } from 'expo';
 import AppNavigator from './AppNavigator';
 import MaterialCommunityIcons from './node_modules/@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import stateReducer from './Reducer';
+
+const store = createStore(stateReducer);
+
 export default class Index extends React.Component{
   state = {
     fontLoaded: false
@@ -22,6 +28,7 @@ export default class Index extends React.Component{
       return <AppLoading/>;
     }
       return (
+        <Provider store={store}>
         <LinearGradient
           colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
           style={{
@@ -34,6 +41,7 @@ export default class Index extends React.Component{
           
           <AppNavigator />
           </LinearGradient>
+          </Provider>
       );
   }
 }

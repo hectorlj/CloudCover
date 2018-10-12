@@ -21,21 +21,21 @@ function concatServices(responseJson){
             amazon.push(i)
     }
 
-    if ((global.filters)['plex'] == true)
-        currentMovies = currentMovies.concat(plex)
-    if ((global.filters)['hulu'] == true)
-        currentMovies = currentMovies.concat(hulu)
-    if ((global.filters)['netflix'] == true)
-        currentMovies = currentMovies.concat(netflix)
-    if ((global.filters)['amazon'] == true)
-        currentMovies = currentMovies.concat(amazon)
+    // if ((global.filters)['plex'] == true)
+    //     currentMovies = currentMovies.concat(plex)
+    // if ((global.filters)['hulu'] == true)
+    //     currentMovies = currentMovies.concat(hulu)
+    // if ((global.filters)['netflix'] == true)
+    //     currentMovies = currentMovies.concat(netflix)
+    // if ((global.filters)['amazon'] == true)
+    //     currentMovies = currentMovies.concat(amazon)
 
     currentMovies.sort(function(a, b) {
         return parseInt(a) - parseInt(b)
     });
 
     currentMovies.forEach(function(i) {
-        console.log(i)
+        // console.log(i)
         returnArray.push(responseJson[i])
     });
 
@@ -48,16 +48,17 @@ function searchlist(text, source){
   for(var key in source){
     if(key.contains(text)){
       list.push(source.key);
-      console.log(source.key);
+      // console.log(source.key);
     }
   }
 }
 export default class Search extends Component {
 static navigationOptions = {
-        header: <View>
+        header: <View style={{marginTop: 40}}>
         <SearchBar lightTheme
         onChangeText={(text) => searchlist(text, moviesList)}
         onClear = {() => list = []}
+        searchIcon={false}
         placeholder='Search...'
         style = {{
           position: 'absolute',

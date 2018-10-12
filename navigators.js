@@ -76,7 +76,8 @@ export default createMaterialTopTabNavigator({
 			backgroundColor: '#FFFFFF'
 		},
 		style:{
-			backgroundColor: 'rgb(39,70,125)'
+			backgroundColor: 'rgb(39,70,125)',
+			paddingBottom: 40
 		}
 	},
 	tabBarPosition: 'bottom',

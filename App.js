@@ -1,80 +1,76 @@
 import React from 'react';
 import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo';
+import { connect } from 'react-redux';
 
-global.filters = {'plex' : true, 'hulu' : true, 'netflix' : false, 'amazon' : false}
-global.continueWatching = ["Avengers: Infinity War", "The Incredibles"]
-global.yourList = ["Cars", "Jurassic World", "Coco", "The Hunger Games", "Aladdin", "Batman Begins"]
-
-function concatServices(responseJson) {
-    var currentMovies = []
-    var plex = []
-    var hulu = []
-    var netflix = []
-    var amazon = []
-    var returnArray = []
-    for (i in responseJson) {
-        if (i % 4 == 0)
-            plex.push(i)
-        else if (i % 3 == 0) 
-            hulu.push(i)
-        else if (i % 2 == 0)
-            netflix.push(i)
-        else
-            amazon.push(i)
-    }
-
-    if ((global.filters)['plex'] == true)
-        currentMovies = currentMovies.concat(plex)
-    if ((global.filters)['hulu'] == true)
-        currentMovies = currentMovies.concat(hulu)
-    if ((global.filters)['netflix'] == true)
-        currentMovies = currentMovies.concat(netflix)
-    if ((global.filters)['amazon'] == true)
-        currentMovies = currentMovies.concat(amazon)
-
-    currentMovies.sort(function(a, b) {
-        return parseInt(a) - parseInt(b)
-    });
-
-    currentMovies.forEach(function(i) {
-        returnArray.push(responseJson[i])
-    });
-
-    return returnArray
-}
-
-function getContinue(responseJson) {
-    var returnArray = []
-    for (i in responseJson) {
-        for (y in global.continueWatching) {
-            if (responseJson[i].Title == (global.continueWatching)[y])
-                returnArray.push(responseJson[i])
-        }
-    }
-    return returnArray
-}
-
-function getYourList(responseJson) {
-    var returnArray = []
-    for (i in responseJson) {
-        for (y in global.yourList) {
-            if (responseJson[i].Title == (global.yourList)[y])
-                returnArray.push(responseJson[i])
-        }
-    }
-    return returnArray
-}
-
-export default class App extends React.Component {
+class App extends React.Component {
 
     static navigationOptions = {
         header: null
     }
-
     constructor(props){
         super(props);
         this.state = {isLoading: true}
+    }
+
+    concatServices(responseJson) {
+        var currentMovies = []
+        var plex = []
+        var hulu = []
+        var netflix = []
+        var amazon = []
+        var returnArray = []
+        for (i in responseJson) {
+            if (i % 4 == 0)
+                plex.push(i)
+            else if (i % 3 == 0) 
+                hulu.push(i)
+            else if (i % 2 == 0)
+                netflix.push(i)
+            else
+                amazon.push(i)
+        }
+
+        if (this.props.content.filters['plex'] == true)
+            currentMovies = currentMovies.concat(plex)
+        if (this.props.content.filters['hulu'] == true)
+            currentMovies = currentMovies.concat(hulu)
+        if (this.props.content.filters['netflix'] == true)
+            currentMovies = currentMovies.concat(netflix)
+        if (this.props.content.filters['amazon'] == true)
+            currentMovies = currentMovies.concat(amazon)
+
+        currentMovies.sort(function(a, b) {
+            return parseInt(a) - parseInt(b)
+        });
+
+        currentMovies.forEach(function(i) {
+            returnArray.push(responseJson[i])
+        });
+
+        return returnArray
+    }
+
+    getContinue(responseJson) {
+        var returnArray = []
+        for (i in responseJson) {
+            for (y in this.props.content.continueWatching) {
+                if (responseJson[i].Title == this.props.content.continueWatching[y])
+                    returnArray.push(responseJson[i])
+            }
+        }
+        return returnArray
+    }
+
+    getYourList(responseJson) {
+        var returnArray = []
+        for (i in responseJson) {
+            for (y in this.props.content.yourList) {
+                if (responseJson[i].Title == this.props.content.yourList[y])
+                    returnArray.push(responseJson[i])
+            }
+        }
+        return returnArray
     }
 
     componentDidMount(){
@@ -82,9 +78,9 @@ export default class App extends React.Component {
         .then((response) => response.json())
         .then((responseJson) => {
 
-            var currentMovies = concatServices(responseJson)
-            var continueWatching = getContinue(responseJson)
-            var yourList = getYourList(responseJson)
+            var currentMovies = this.concatServices(responseJson)
+            var continueWatching = this.getContinue(currentMovies)
+            var yourList = this.getYourList(currentMovies)
             this.setState({
                 isLoading: false,
                 currentMovies: currentMovies,
@@ -100,6 +96,7 @@ export default class App extends React.Component {
     }
 
     render() {
+        this.componentDidMount()
         if (this.state.isLoading){
             return(
                 <View style={{flex: 1, padding: 50}}>
@@ -108,7 +105,6 @@ export default class App extends React.Component {
                 )
         }
         return (
-            // <View style={styles.container}>
             
             <LinearGradient
             colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
@@ -221,9 +217,9 @@ export default class App extends React.Component {
             />
             </ScrollView>
             </LinearGradient>
-            
             );
     }
+
 }
 
 const styles = StyleSheet.create({
@@ -233,6 +229,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 },
 });
+
+const mapStateToProps = (state) => {
+    const { content } = state
+    return { content }
+}
+
+export default connect(mapStateToProps)(App);
 
 
 
