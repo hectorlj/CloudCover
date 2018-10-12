@@ -14,6 +14,7 @@ import { bindActionCreators } from 'redux';
 import { toggleService } from './Actions';
 
 class Settings extends Component {
+
   static navigationOptions = {
       header: null
   }
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 15,
+    paddingRight: 15
   },
 });
 
