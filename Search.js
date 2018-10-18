@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { ActivityIndicator,VirtualizedList, Image, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { ActivityIndicator,VirtualizedList, Image, View, Text, StyleSheet, TouchableOpacity, Platform, StatusBar} from 'react-native';
 import { LinearGradient } from 'expo';
 import {SearchBar} from 'react-native-elements';
+import {connect} from 'react-redux';
 
 function concatServices(responseJson){
     var currentMovies = []
@@ -41,36 +42,28 @@ function concatServices(responseJson){
 
     return returnArray
 }
-var list = [];
+var list = [''];
 var moviesList;
 
-function searchlist(text, source){
-  for(var key in source){
-    if(key.contains(text)){
-      list.push(source.key);
-      // console.log(source.key);
-    }
-  }
-}
-export default class Search extends Component {
+
+class Search extends Component {
 static navigationOptions = {
-        header: <View style={{marginTop: 40}}>
-        <SearchBar lightTheme
-        onChangeText={(text) => searchlist(text, moviesList)}
-        onClear = {() => list = []}
-        searchIcon={false}
-        placeholder='Search...'
-        style = {{
-          position: 'absolute',
-          top: 15
-        }}
-        />
-        </View>
+        header: null
     }
   constructor(props){
     super(props);
     this.state = {isLoading: true}
-}
+    this.searchlist = (text, source) => {
+      list = [''];
+      for(var key in source){
+        var title = source[key].Title;
+        if(title.contains(text)){
+          list.push(source[key]);
+        }
+      }
+      return list;
+    }
+  }
 
 componentDidMount(){
     return fetch('https://codegarage.org/plex/allmovies.json')
@@ -78,28 +71,25 @@ componentDidMount(){
     .then((responseJson) => {
       
         var currentMovies = concatServices(responseJson)
-        moviesList = currentMovies
+
         this.setState({
             isLoading: false,
-            currentMovies: currentMovies
+            currentMovies: currentMovies,
+
         }, 
         function(responseJson){
-          
+          console.log(responseJson);
         });
-  })
+    })
     .catch((error) => {
       console.error(error);
-  });
-}
+    });
+  }
   render () {
-  	    if(this.state.isLoading){
-      return(
-        <View style={{flex: 1, padding: 50}}>
-          <ActivityIndicator/>
-        </View>
-      )
+    if (this.state.isLoading){
+      return  <ActivityIndicator/>
     }
-    return (
+    return (    
       <View style={styles.container}>
        <LinearGradient
           colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
@@ -108,8 +98,19 @@ componentDidMount(){
             left:0,
             right:0,
             bottom:0,
-            top:0
+            top:0,
+            paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
           }} >
+          <SearchBar darkTheme
+            onChangeText={(text) => this.searchlist(text, this.props.content.all)}
+            onClear = {() => list = ['']}
+            searchIcon={true}
+            placeholder='Search...'
+            style = {{
+              position: 'absolute',
+              top: 0
+            }}
+            />
           <VirtualizedList
            style={{flex:1, paddingTop: 50, paddingLeft: 2, paddingRight: 2}}
            horizontal={false}
@@ -172,3 +173,10 @@ const styles = StyleSheet.create({
   	fontWeight: 'bold'
   }
 });
+
+const mapStateToProps = (state) => {
+    const { content } = state
+    return { content }
+};
+
+export default connect(mapStateToProps)(Search);

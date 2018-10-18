@@ -55,8 +55,8 @@ SettingsStack.navigationOptions = {
 		 focused = {focused}
 		 name={
 		 	Platform.OS==='ios'
-		 	? `ios-settings${focused ? '' : '-outline'}`
-		 	: 'md-settings'
+		 	? `ios-menu${focused ? '' : '-outline'}`
+		 	: 'md-menu'
 		 }
 		/>
 	),
@@ -77,7 +77,7 @@ export default createMaterialTopTabNavigator({
 		},
 		style:{
 			backgroundColor: 'rgb(39,70,125)',
-			paddingBottom: 40
+			paddingBottom: Platform.OS === 'ios' ? 40 : 0 
 		}
 	},
 	tabBarPosition: 'bottom',

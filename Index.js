@@ -13,6 +13,13 @@ export default class Index extends React.Component{
   state = {
     fontLoaded: false
   };
+  constructor(props){
+    super(props)
+  }
+
+  addMovie = (index) => {
+
+  }
   async componentWillMount(){
     try{
       await Font.loadAsync({
@@ -39,7 +46,11 @@ export default class Index extends React.Component{
             top:0,
           }} >
           
-          <AppNavigator />
+          <AppNavigator 
+            screenProps = {{
+              all: this.state.all
+            }}
+          />
           </LinearGradient>
           </Provider>
       );

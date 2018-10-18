@@ -1,5 +1,5 @@
 import React from 'react';
-import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar } from 'react-native';
+import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
 import { LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 
@@ -102,10 +102,9 @@ class App extends React.Component {
                 <View style={{flex: 1, padding: 50}}>
                 <ActivityIndicator/>
                 </View>
-                )
+            )
         }
         return (
-            
             <LinearGradient
             colors={['rgb(32,56,100)','rgb(49,88,157)','rgb(54,96,171)','rgb(53,95,169)']}
             style={{
@@ -113,8 +112,11 @@ class App extends React.Component {
                 left:0,
                 right:0,
                 bottom:0,
-                top:0
+                top:0,
+                paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight 
+
             }}>
+
             <ScrollView>
 
 
