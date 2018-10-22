@@ -9,16 +9,12 @@ import stateReducer from './Reducer';
 
 const store = createStore(stateReducer);
 
-export default class Index extends React.Component{
+class Index extends React.Component{
   state = {
     fontLoaded: false
   };
   constructor(props){
     super(props)
-  }
-
-  addMovie = (index) => {
-
   }
   async componentWillMount(){
     try{
@@ -62,3 +58,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default Index;
