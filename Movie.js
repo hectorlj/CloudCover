@@ -6,7 +6,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  Image
+  Image,
+  StatusBar
 } from 'react-native'
 import Dimensions from 'Dimensions';
 
