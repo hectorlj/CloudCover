@@ -14,9 +14,12 @@ import Dimensions from 'Dimensions';
 class Movie extends Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.getParam('item').Title,
-    // headerStyle: {
-    //   backgroundColor: 'rgb(39,70,125)',
-    // },
+    headerStyle: {
+      backgroundColor: 'rgb(32,56,100)',
+    },
+    headerTitleStyle: {
+       color: 'white',
+    },
   })
 
   render () {
@@ -50,7 +53,7 @@ class Movie extends Component {
                 paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight 
 
             }}>
-            <ScrollView style={{top: 85}}>
+            <ScrollView style={{top: Platform.OS === 'ios' ? 85 : 0}}>
                 <Image
                   style={{width: width, height: 300}}
                   source={{uri: item.Poster}}
@@ -58,7 +61,7 @@ class Movie extends Component {
                 <View style={{flexDirection: 'row'}}>
                 <Text style={{color: 'white', padding: 15, paddingRight: 0, fontSize: 30}}>{item.Title}</Text>
                 <Image
-                  style={{width: 40, height: 40, margin: 10}}
+                  style={{width: 40, height: 40, margin: 15}}
                   source={img}
                 />
                 </View>
