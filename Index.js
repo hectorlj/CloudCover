@@ -17,9 +17,6 @@ export default class Index extends React.Component{
     super(props)
   }
 
-  addMovie = (index) => {
-
-  }
   async componentWillMount(){
     try{
       await Font.loadAsync({

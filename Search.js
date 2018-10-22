@@ -22,21 +22,11 @@ function concatServices(responseJson){
             amazon.push(i)
     }
 
-    // if ((global.filters)['plex'] == true)
-    //     currentMovies = currentMovies.concat(plex)
-    // if ((global.filters)['hulu'] == true)
-    //     currentMovies = currentMovies.concat(hulu)
-    // if ((global.filters)['netflix'] == true)
-    //     currentMovies = currentMovies.concat(netflix)
-    // if ((global.filters)['amazon'] == true)
-    //     currentMovies = currentMovies.concat(amazon)
-
     currentMovies.sort(function(a, b) {
         return parseInt(a) - parseInt(b)
     });
 
     currentMovies.forEach(function(i) {
-        // console.log(i)
         returnArray.push(responseJson[i])
     });
 
@@ -101,16 +91,14 @@ componentDidMount(){
             top:0,
             paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
           }} >
+          <View style={{marginTop: 35}}>
           <SearchBar darkTheme
             onChangeText={(text) => this.searchlist(text, this.props.content.all)}
             onClear = {() => list = ['']}
-            searchIcon={true}
+            searchIcon={false}
             placeholder='Search...'
-            style = {{
-              position: 'absolute',
-              top: 0
-            }}
             />
+            </View>
           <VirtualizedList
            style={{flex:1, paddingTop: 50, paddingLeft: 2, paddingRight: 2}}
            horizontal={false}

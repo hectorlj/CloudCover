@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 
 const INITIAL_STATE = {
   filters: {'plex' : true, 'hulu' : true, 'netflix' : true, 'amazon' : true},
-  continueWatching : ["Avengers: Infinity War", "The Incredibles"],
-  yourList: ["Cars", "Jurassic World", "Coco", "The Hunger Games", "Aladdin", "Batman Begins"],
+  continueWatching : ["The Incredibles", "The Avengers", "Jurassic World"],
+  yourList: ["Cars", "Jurassic World", "Coco", "The Hunger Games", "Aladdin", "Batman Begins", "The Lost World: Jurassic Park", "Man of Steel"],
   all: {
   "0": {
     "Title": "10 Cloverfield Lane",

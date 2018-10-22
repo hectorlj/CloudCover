@@ -1,5 +1,5 @@
 import React from 'react';
-import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
+import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar, Platform, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 
@@ -21,14 +21,22 @@ class App extends React.Component {
         var amazon = []
         var returnArray = []
         for (i in responseJson) {
-            if (i % 4 == 0)
+            if (i % 4 == 0) {
+                responseJson[i].Type = 'Plex'
                 plex.push(i)
-            else if (i % 3 == 0) 
+            }
+            else if (i % 3 == 0) {
+                responseJson[i].Type = 'Hulu'
                 hulu.push(i)
-            else if (i % 2 == 0)
+            }
+            else if (i % 2 == 0) {
+                responseJson[i].Type = "Netflix"
                 netflix.push(i)
-            else
+            }
+            else {
+                responseJson[i].Type = "Prime"
                 amazon.push(i)
+            }
         }
 
         if (this.props.content.filters['plex'] == true)
@@ -116,10 +124,8 @@ class App extends React.Component {
                 paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight 
 
             }}>
-
+           
             <ScrollView>
-
-
             <Text style={{paddingTop: 50, paddingLeft: 10, color: 'white', fontSize: 25}}>Continue Watching</Text>
             <VirtualizedList
             style={{flex:1, paddingTop: 5, margin: 0, paddingLeft: 10}}
@@ -141,12 +147,17 @@ class App extends React.Component {
             windowSize={4}
             renderItem = {({item}) => {
                 return (
-                    <View style={{margin: 10, marginBottom: 0}}>
+                    <View>
+                    <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                    style={{margin: 10, marginBottom: 0}}>   
                     <Image
-                    style={{width: 120, height: 180}}
-                    source={{uri: item.Poster}}
+                        style={{width: 120, height: 180}}
+                        source={{uri: item.Poster}}
                     />
-                    <Text style={{color: 'white', width: 120, marginTop: 5}}>{item.Title}</Text>
+                    </TouchableHighlight>
+                    <Text style={{color: 'white', width: 120, margin: 10, marginTop: 5, marginBottom: 0}}>{item.Title}</Text>
                     </View>
                     )
             }}
@@ -174,12 +185,17 @@ class App extends React.Component {
             windowSize={4}
             renderItem = {({item}) => {
                 return (
-                    <View style={{margin: 10}}>
+                   <View>
+                    <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                    style={{margin: 10, marginBottom: 0}}>   
                     <Image
-                    style={{width: 120, height: 180}}
-                    source={{uri: item.Poster}}
+                        style={{width: 120, height: 180}}
+                        source={{uri: item.Poster}}
                     />
-                    <Text style={{color: 'white', width: 120, marginTop: 5}}>{item.Title}</Text>
+                    </TouchableHighlight>
+                    <Text style={{color: 'white', width: 120, margin: 10, marginTop: 5, marginBottom: 0}}>{item.Title}</Text>
                     </View>
                     )
             }}
@@ -207,12 +223,17 @@ class App extends React.Component {
             windowSize={4}
             renderItem = {({item}) => {
                 return (
-                    <View style={{height:200, margin: 10, marginBottom: 40}}>
+                   <View>
+                    <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                    style={{margin: 10, marginBottom: 0}}>   
                     <Image
-                    style={{width: 120, height: 180}}
-                    source={{uri: item.Poster}}
+                        style={{width: 120, height: 180}}
+                        source={{uri: item.Poster}}
                     />
-                    <Text style={{color: 'white', width: 120, marginTop: 5}}>{item.Title}</Text>
+                    </TouchableHighlight>
+                    <Text style={{color: 'white', width: 120, margin: 10, marginTop: 5, marginBottom: 0}}>{item.Title}</Text>
                     </View>
                     )
             }}
@@ -238,7 +259,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(App);
-
-
-
-//?X-Plex-Token=41SURguGvcq4ZSrUX7SU
