@@ -1,40 +1,8 @@
 import React, { Component } from 'react';
-import { ActivityIndicator,VirtualizedList, Image, View, Text, StyleSheet, TouchableOpacity, Platform, StatusBar} from 'react-native';
+import { ActivityIndicator,FlatList, Image, View, Text, StyleSheet, TouchableOpacity, Platform, StatusBar} from 'react-native';
 import { LinearGradient } from 'expo';
-import {SearchBar} from 'react-native-elements';
+import {SearchBar, Card} from 'react-native-elements';
 import {connect} from 'react-redux';
-
-function concatServices(responseJson){
-    var currentMovies = []
-    var plex = []
-    var hulu = []
-    var netflix = []
-    var amazon = []
-    var returnArray = []
-    for (i in responseJson) {
-        if (i % 4 == 0)
-            plex.push(i)
-        else if (i % 3 == 0) 
-            hulu.push(i)
-        else if (i % 2 == 0)
-            netflix.push(i)
-        else
-            amazon.push(i)
-    }
-
-    currentMovies.sort(function(a, b) {
-        return parseInt(a) - parseInt(b)
-    });
-
-    currentMovies.forEach(function(i) {
-        returnArray.push(responseJson[i])
-    });
-
-    return returnArray
-}
-var list = [''];
-var moviesList;
-
 
 class Search extends Component {
 static navigationOptions = {
@@ -42,43 +10,27 @@ static navigationOptions = {
     }
   constructor(props){
     super(props);
-    this.state = {isLoading: true}
+    this.state = {data: []}
+    this.clearList = () => {
+      this.setState({data: []})
+    }
     this.searchlist = (text, source) => {
-      list = [''];
+      var list = [];
+      text = text.toLowerCase();
       for(var key in source){
-        var title = source[key].Title;
+        var title = source[key].Title.toLowerCase();
         if(title.contains(text)){
           list.push(source[key]);
         }
       }
-      return list;
+      if(text == '')
+        list = [];
+      this.setState({ data: list});
     }
   }
 
-componentDidMount(){
-    return fetch('https://codegarage.org/plex/allmovies.json')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      
-        var currentMovies = concatServices(responseJson)
-
-        this.setState({
-            isLoading: false,
-            currentMovies: currentMovies,
-
-        }, 
-        function(responseJson){
-          console.log(responseJson);
-        });
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
   render () {
-    if (this.state.isLoading){
-      return  <ActivityIndicator/>
-    }
+
     return (    
       <View style={styles.container}>
        <LinearGradient
@@ -91,51 +43,43 @@ componentDidMount(){
             top:0,
             paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
           }} >
-          <View style={{marginTop: 35}}>
+          <View style={{marginTop: Platform.OS === 'ios' ? 35 : 0}}>
           <SearchBar darkTheme
             onChangeText={(text) => this.searchlist(text, this.props.content.all)}
-            onClear = {() => list = ['']}
+            onClear = {() => this.clearList()}
             searchIcon={false}
             placeholder='Search...'
             />
             </View>
-          <VirtualizedList
-           style={{flex:1, paddingTop: 50, paddingLeft: 2, paddingRight: 2}}
+          <FlatList
            horizontal={false}
-           maxToRenderPerBatch={20}
-           data = {list}
-           getItemCount={(data) => {
-            return 0
-          }}
-           getItem={(data, index) => {
-            return data[index]
-          }}
-           keyExtractor={(item, index) =>{
-            return item.Title
-           }}
-           initialNumToRender = { 10 }
-           windowSize={4}
+           data = {this.state.data}
+           keyExtractor = {(item, index) =>{ return item.Title}}
            renderItem = {({item}) => {
               return (
-                <View style={{flexDirection: 'row', flex:1 ,height:200, padding:5}}>
+                <Card
+                  containerStyle = {{flex:1, backgroundColor: 'rgba(0, 0, 0, 0.0)', borderColor: 'rgba(0, 0, 0, 0.0)'}}
+                  >
+                <View style = {{flexDirection:'row'}}>  
                 <View 
-                style= {{flexDirection:'column', width:225,}}>
-               <Text style={{fontSize: 20, color: 'white', paddingLeft:2}}>{item.Title}</Text>
-                <Text
-                 numberOfLines={4}
-                 style={{fontSize: 15, color: 'white', paddingLeft:2}}>{item.Plot}</Text>
-                
+                style = {{
+                   flexDirection: 'column',
+                   flex: 0.95,
+                   paddingRight: 2 }}>
+                  <Text style={styles.header}>{item.Title}</Text>
+                  <Text
+                    numberOfLines={6}
+                    style={styles.text}>{item.Plot}</Text>
                 </View>
-                <View
-                  style={{flexDirection: 'column'}}
-                >
-                <Image
-                  source = {{uri: item.Poster}}
-                  style={{height: 150, width: 125}}
-                />
+                <View>
+                  <Image
+                    style={{width: 120, height: 180}}
+                    source={{uri: item.Poster}}
+                  />
                 </View>
+                </View>
+                </Card>
 
-                </View>
               )
             }
            }
@@ -153,11 +97,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
+    fontSize: 15,
     color: 'white',
-    fontSize: 40,
-    fontWeight: 'bold',
   },
   header:{
+    fontSize: 17,
+    color: 'white',
   	fontWeight: 'bold'
   }
 });

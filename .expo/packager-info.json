@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://j5-b5s.bryantmh.cloudcover.exp.direct",
-  "packagerNgrokUrl": "https://packager.j5-b5s.bryantmh.cloudcover.exp.direct",
-  "ngrokPid": 6140,
+  "expoServerNgrokUrl": "https://9u-vx6.bryantmh.cloudcover.exp.direct",
+  "packagerNgrokUrl": "https://packager.9u-vx6.bryantmh.cloudcover.exp.direct",
+  "ngrokPid": 2608,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 12372
+  "packagerPid": 3832
 }
