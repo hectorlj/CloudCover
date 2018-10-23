@@ -12800,6 +12800,7 @@ const stateReducer = (state = INITIAL_STATE, action) => {
       filters[action.payload] = !filters[action.payload];
       const newState = {filters, continueWatching, yourList};
       return newState
+      
     default:
       return state
   }

@@ -38,7 +38,7 @@ class Movie extends Component {
         case 'Prime':
           img = require('./assets/prime.png')
         default:
-          img = require('./assets/plex.png')
+          img = require('./assets/Plex.png')
           break
       }
     return (

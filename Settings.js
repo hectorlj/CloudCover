@@ -19,7 +19,7 @@ const hulu = require('./assets/Hulu.png');
 const huluGray = require('./assets/huluGray.png');
 const prime = require('./assets/prime.png');
 const primeGray = require('./assets/primeGray.png');
-const plex = require('./assets/plex.png');
+const plex = require('./assets/Plex.png');
 const plexGray = require('./assets/plexGray.png');
 
 class Settings extends Component {
