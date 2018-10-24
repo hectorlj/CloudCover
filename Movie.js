@@ -83,7 +83,9 @@ class Movie extends Component {
                 .catch((err)=>{
                   console.log(err);
                 });
-              }}>
+              }}
+              style={{margin: 10, marginBottom: 0}}
+              >
                 <Image
                   style={{width: width, height: 300}}
                   source={{uri: item.Poster}}
@@ -98,7 +100,9 @@ class Movie extends Component {
                   .catch((err)=>{
                     console.log(err);
                   });
-                }}>
+                }}
+                style={{margin: 10, marginBottom: 0}}
+                >
                 <Image
                   style={{width: 40, height: 40, margin: 15}}
                   source={img}
