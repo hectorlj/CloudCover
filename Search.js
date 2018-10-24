@@ -93,6 +93,9 @@ class Search extends Component {
       }
       if(text == '')
         list = [];
+      else if(list.length < 1){
+        list.push({notfound:'No movies found! :(', Title:'notfound'})
+      }
       this.setState({ data: list});
     }
   }
@@ -140,6 +143,15 @@ class Search extends Component {
            data = {this.state.data}
            keyExtractor = {(item, index) =>{ return item.Title}}
            renderItem = {({item}) => {
+              if(item.notfound !== undefined ){
+                return (
+                  <View style={styles.container}>
+                    <Text style={styles.header}>
+                    {item.notfound}
+                    </Text>
+                  </View>
+                  )
+              }
               return (
                 <Card
                   containerStyle = {{flex:1, backgroundColor: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(0, 0, 0, 0.0)'}}

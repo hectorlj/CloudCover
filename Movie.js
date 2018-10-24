@@ -7,9 +7,16 @@ import {
   ScrollView,
   Platform,
   Image,
-  StatusBar
+  StatusBar,
+  TouchableHighlight
 } from 'react-native'
 import Dimensions from 'Dimensions';
+import AppLink from 'react-native-app-link';
+var url = '';
+var appName = '';
+var appStoreId = '';
+var appStoreLocale = 'us';
+var playStoreId = '';
 
 class Movie extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -25,20 +32,35 @@ class Movie extends Component {
   render () {
       const { navigation } = this.props
       const item = navigation.getParam('item', 'NO ITEM SELECTED')
-      console.log(item)
       const width = Dimensions.get('window').width
       let img
       switch (item.Type) {
         case 'Netflix':
           img = require('./assets/netflix.png')
+          url = 'nflx://www.netflix.com/'
+          appName = 'Netflix'
+          appStoreId = 'id363590051'
+          playStoreId = 'com.netflix.mediaclient'       
           break
         case 'Hulu':
           img = require('./assets/Hulu.png')
+          url = 'hulu: hulu://'
+          appName = 'Hulu'
+          appStoreId = 'id376510438'
+          playStoreId = 'com.hulu.plus'
           break
         case 'Prime':
           img = require('./assets/prime.png')
+          url = ''
+          appName = 'Prime Video'
+          appStoreId = 'id545519333'
+          playStoreId = 'com.amazon.avod.thirdpartyclient'
         default:
           img = require('./assets/Plex.png')
+          url = 'plex://'
+          appName = 'Plex'
+          appStoreId = 'id383457673'
+          playStoreId = 'com.plexapp.android'
           break
       }
     return (
@@ -54,16 +76,34 @@ class Movie extends Component {
 
             }}>
             <ScrollView style={{top: Platform.OS === 'ios' ? 85 : 0}}>
+              <TouchableHighlight onPress={() => {
+                AppLink.maybeOpenURL(url, {appName, appStoreId, appStoreLocale, playStoreId}).then(() => {
+
+                })
+                .catch((err)=>{
+                  console.log(err);
+                });
+              }}>
                 <Image
                   style={{width: width, height: 300}}
                   source={{uri: item.Poster}}
                 />
+                </TouchableHighlight>
                 <View style={{flexDirection: 'row'}}>
                 <Text style={{color: 'white', padding: 15, paddingRight: 0, fontSize: 30}}>{item.Title}</Text>
+                <TouchableHighlight onPress={() => {
+                  AppLink.maybeOpenURL(url, {appName, appStoreId, appStoreLocale, playStoreId}).then(() => {
+
+                  })
+                  .catch((err)=>{
+                    console.log(err);
+                  });
+                }}>
                 <Image
                   style={{width: 40, height: 40, margin: 15}}
                   source={img}
                 />
+                </TouchableHighlight>
                 </View>
                 <Text style={{color: 'white', width: width, padding: 10}}>{item.Plot}</Text>
             </ScrollView>
