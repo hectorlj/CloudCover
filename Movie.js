@@ -92,7 +92,7 @@ class Movie extends Component {
                 />
                 </TouchableHighlight>
                 <View style={{flexDirection: 'row'}}>
-                <Text style={{color: 'white', padding: 15, paddingRight: 0, fontSize: 30}}>{item.Title}</Text>
+                <Text style={{color: 'white', paddingTop: 5, paddingLeft: 5, paddingBottom: 5, fontSize: 30}}>{item.Title}</Text>
                 <TouchableHighlight onPress={() => {
                   AppLink.maybeOpenURL(url, {appName, appStoreId, appStoreLocale, playStoreId}).then(() => {
 
@@ -104,12 +104,15 @@ class Movie extends Component {
                 style={{margin: 10, marginBottom: 0}}
                 >
                 <Image
-                  style={{width: 40, height: 40, margin: 15}}
+                  style={{width: 40, height: 40}}
                   source={img}
                 />
                 </TouchableHighlight>
                 </View>
-                <Text style={{color: 'white', width: width, padding: 10}}>{item.Plot}</Text>
+                <Text style={styles.metadata}>{item.Year}</Text>
+                <Text style={styles.plot}>{item.Plot}</Text>
+                <Text style={styles.subinfo}>Starring: {item.Actors}</Text>
+                <Text style={styles.subinfo}>Director: {item.Director}</Text>
             </ScrollView>
       </LinearGradient>
     )
@@ -130,5 +133,23 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 40,
     fontWeight: 'bold',
+  },
+  subinfo: {
+    fontSize: 10,
+    color: 'white',
+    width: Dimensions.get('window').width,
+    padding: 10
+  },
+  metadata: {
+    fontSize: 12,
+    color: 'white',
+    width: Dimensions.get('window').width,
+    padding: 10
+  }, 
+  plot: {
+    fontSize: 14,
+    color: 'white',
+    width: Dimensions.get('window').width, 
+    padding: 10
   }
 })

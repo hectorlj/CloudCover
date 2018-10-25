@@ -61,46 +61,62 @@ class Settings extends Component {
     }}>
     <Text style={{paddingTop: 50, paddingLeft: 10, color: 'white', fontSize: 25}}>Filters</Text>
     <View style={styles.container} >
-
-    <TouchableHighlight onPress={() => {
-      this.props.toggleService('netflix')
-      this.changeState('netflix', netflix, netflixGray)
-    }}
-    style={{width: 80, height: 80, margin: 20}}>
+    <View style={{flexDirection:'row', margin: 10}}>
     <Image
-    style={{width: 80, height: 80}}
+    style={{width: 80, height: 80, marginLeft: 10}}
     source={this.state.netflix}
     />
-    </TouchableHighlight>
-    <TouchableHighlight onPress={() => {
-      this.props.toggleService('hulu')
-      this.changeState('hulu', hulu, huluGray)
-    }} style={{width: 80, height: 80, margin: 20}}>
+    <Switch
+      onTintColor='rgb(255,255,255)'
+      value = {this.props.content.filters['netflix']}
+      onValueChange={() =>{
+        this.props.toggleService('netflix')
+        this.changeState('netflix', netflix, netflixGray)
+      }}
+    />
+    </View>
+    <View style={{flexDirection:'row', margin: 10}}>
     <Image
-    style={{width: 80, height: 80}}
+    style={{width: 80, height: 80, marginLeft: 10}}
     source={this.state.hulu}
     />
-    </TouchableHighlight>
-    <TouchableHighlight onPress={() => {
-      this.props.toggleService('amazon')
-      this.changeState('amazon', prime, primeGray)
-    }}
-    style={{width: 80, height: 80, margin: 20}}>
+    <Switch
+      onTintColor='rgb(255,255,255)'
+      value={this.props.content.filters['hulu']}
+      onValueChange={() => {
+        this.props.toggleService('hulu')
+        this.changeState('hulu', hulu, huluGray)
+      }}
+    />
+    </View>
+    <View style={{flexDirection:'row', margin: 10}}>
     <Image
-    style={{width: 80, height: 80}}
+    style={{width: 80, height: 80, marginLeft: 10}}
     source={this.state.amazon}
     />
-    </TouchableHighlight>
-    <TouchableHighlight onPress={() => {
-      this.props.toggleService('plex')
-      this.changeState('plex', plex, plexGray)
-    }}
-    style={{width: 80, height: 80, margin: 20}}>
+    <Switch
+      onTintColor='rgb(255,255,255)'
+      value={this.props.content.filters['amazon']}
+      onValueChange={() => {
+        this.props.toggleService('amazon')
+        this.changeState('amazon', prime, primeGray)
+      }}
+    />
+    </View>
+    <View style={{flexDirection:'row', margin: 10}}>
     <Image
-    style={{width: 80, height: 80}}
+    style={{width: 80, height: 80, marginLeft: 10}}
     source={this.state.plex}
     />
-    </TouchableHighlight>   
+    <Switch
+      onTintColor='rgb(255,255,255)'
+      value={this.props.content.filters['plex']}
+      onValueChange={() => {
+        this.props.toggleService('plex')
+        this.changeState('plex', plex, plexGray)
+      }}
+    />
+    </View>
      <Text style={{padding: 10, color: 'white', fontSize: 20}}>Use the service icons to change which content you see</Text>  
     </View>
     </LinearGradient>
