@@ -143,7 +143,7 @@ class Search extends Component {
            data = {this.state.data}
            keyExtractor = {(item, index) =>{ return item.Title}}
            renderItem = {({item}) => {
-              if(item.notfound !== undefined ){
+              if(item.notfound){
                 return (
                   <View style={styles.container}>
                     <Text style={styles.header}>

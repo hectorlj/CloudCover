@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://9u-vx6.hectorlj.cloudcover.exp.direct",
+  "packagerNgrokUrl": "https://packager.9u-vx6.hectorlj.cloudcover.exp.direct",
+  "ngrokPid": 7468,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 13940
+  "packagerPid": 3456
 }
