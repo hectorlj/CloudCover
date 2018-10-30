@@ -50,10 +50,11 @@ class Movie extends Component {
           break
         case 'Prime':
           img = require('./assets/prime.png')
-          url = ''
+          url = 'prime: prime://'
           appName = 'Prime Video'
           appStoreId = 'id545519333'
           playStoreId = 'com.amazon.avod.thirdpartyclient'
+          break
         default:
           img = require('./assets/Plex.png')
           url = 'plex://'

@@ -3,10 +3,10 @@ import { ActivityIndicator,FlatList, Image, View, Text, StyleSheet, TouchableHig
 import { LinearGradient } from 'expo';
 import {SearchBar, Card} from 'react-native-elements';
 import {connect} from 'react-redux';
+import { Font } from 'expo';
 
 const filled = require('./assets/images/round_favorite_white_18dp.png');
 const notfilled = require('./assets/images/round_favorite_border_white_18dp.png');
-
 
 class Search extends Component {
   static navigationOptions = {
@@ -15,12 +15,21 @@ class Search extends Component {
   
   constructor(props){
     super(props);
-    this.state = {data: []}
+    this.state = {isloading: true,
+      query: "",}
     this.clearList = () => {
       this.setState({data: []})
     }
+  }
 
-    this.concatServices = (responseJson) => {
+  handleQueryChange = query => {
+        this.setState(state => ({ ...state, query: query || "" }))
+        this.searchlist(query)
+      };
+
+  handleSearchClear = () => this.handleQueryChange("");
+
+  concatServices(responseJson) {
     var currentMovies = []
     var plex = []
     var hulu = []
@@ -64,15 +73,15 @@ class Search extends Component {
     });
 
     return returnArray
-  }
+  };
     
-    this.searchlist = (text, source) => {
-      source = this.concatServices(source);
+  searchlist(text) {
+      var source = this.state.currentMovies;
       var list = [];
       text = text.toLowerCase();
       for(var key in source){
         var title = source[key].Title.toLowerCase();
-        if(title.contains(text)){
+        if(title.includes(text)){
           let img
             switch (source[key].Type) {
               case 'Netflix':
@@ -83,6 +92,10 @@ class Search extends Component {
                 break
               case 'Prime':
                 img = require('./assets/prime.png')
+                break
+              case 'Plex':
+                img = require('./assets/Plex.png')
+                break
               default:
                 img = require('./assets/Plex.png')
                 break
@@ -97,27 +110,32 @@ class Search extends Component {
         list.push({notfound:'No movies found! :(', Title:'notfound'})
       }
       this.setState({ data: list});
-    }
-  }
+  };
 
-  componentWillMount(){
-    this.changeState('favorite', filled, notfilled)
-  }
+  componentDidMount() {
+        Font.loadAsync({
+          Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
+          'Material Design Icons': require("@expo/vector-icons/fonts/MaterialCommunityIcons.ttf")
+        });
+        return fetch('https://codegarage.org/plex/allmovies.json')
+        .then((response) => response.json())
+        .then((responseJson) => {
 
-  changeState(service, img, borderImg) {
-    var item = {}
-    if (this.props.content.filters[service] == true) {
-      item[service] = img
-      this.setState(item);
-    }
-    else {
-      item[service] = borderImg
-      this.setState(item)
-    }
-  }
+            var currentMovies = this.concatServices(responseJson)
+            this.setState({
+                isLoading: false,
+                currentMovies: currentMovies
+            }, 
+            function(responseJson){
+            });
+        })
+        .catch((error) => {
+            console.error(error)
+        });
+    };
 
   render () {
-
+    this.componentDidMount()
     return (    
       <View style={styles.container}>
        <LinearGradient
@@ -130,10 +148,12 @@ class Search extends Component {
             top:0,
             paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
           }} >
-          <View style={{marginTop: Platform.OS === 'ios' ? 35 : 0}}>
+          <View style={{marginTop: Platform.OS === 'ios' ? 45 : 0}}>
           <SearchBar darkTheme
-            onChangeText={(text) => this.searchlist(text, this.props.content.all)}
-            onClear = {() => this.clearList()}
+            platform="default"
+            onChangeText={this.handleQueryChange}
+            onClear = {this.handleSearchClear}
+            value={this.state.query}
             searchIcon={false}
             placeholder='Search...'
             />
