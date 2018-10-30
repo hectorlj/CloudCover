@@ -3,10 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Switch,
   Image,
-  TouchableHighlight
 } from 'react-native'
 import { LinearGradient } from 'expo'
 import { connect } from 'react-redux';

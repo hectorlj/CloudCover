@@ -90,6 +90,7 @@ class Movie extends Component {
                 <Image
                   style={{width: width, height: 300}}
                   source={{uri: item.Poster}}
+                  resizeMode='cover'
                 />
                   <Image
                   style={{width: 150, height: 150, position: 'absolute', left: (width/2) - 75, top: 150 - 75 }}

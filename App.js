@@ -1,5 +1,5 @@
 import React from 'react';
-import {VirtualizedList, Image, ScrollView, FlatList, ActivityIndicator, Button, StyleSheet, Text, View, StatusBar, Platform, TouchableHighlight } from 'react-native';
+import {VirtualizedList, Image, ScrollView, ActivityIndicator, StyleSheet, Text, View, StatusBar, Platform, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 

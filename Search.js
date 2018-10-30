@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator,FlatList, Image, View, Text, StyleSheet, TouchableHighlight, Platform, StatusBar} from 'react-native';
+import { FlatList, Image, View, Text, StyleSheet, TouchableHighlight, Platform, StatusBar} from 'react-native';
 import { LinearGradient } from 'expo';
 import {SearchBar, Card} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -176,34 +176,51 @@ class Search extends Component {
                 <Card
                   containerStyle = {{flex:1, backgroundColor: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(0, 0, 0, 0.0)'}}
                   >
-                 <TouchableHighlight onPress={() => {
-                          this.props.navigation.navigate("Movie", {item: item})   
-                        }}
-                        >
+                 
                 <View style = {{flexDirection:'row'}}>  
+                
                 <View 
                 style = {{
                    flexDirection: 'column',
                    flex: 0.95,
                    paddingRight: 4 }}>
+                   <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                        >
                   <Text style={styles.header}>{item.Title}</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                        >
                   <Image
                     style={{width: 30, height: 30, margin: 15}}
                     source={item.TypePic}
                   />
-                  
+                  </TouchableHighlight>
+                  <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                        >
                   <Text
                     numberOfLines={4}
                     style={styles.text}>{item.Plot}</Text>
+                    </TouchableHighlight>
                 </View>
                 <View>
+                <TouchableHighlight onPress={() => {
+                          this.props.navigation.navigate("Movie", {item: item})   
+                        }}
+                        >
                   <Image
                     style={{width: 120, height: 180}}
                     source={{uri: item.Poster}}
                   />
+                  </TouchableHighlight>
                 </View>
+                
                 </View>
-                </TouchableHighlight>
                 </Card>
 
               )
