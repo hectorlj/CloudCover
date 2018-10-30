@@ -73,6 +73,7 @@ class Settings extends Component {
         this.props.toggleService('netflix')
         this.changeState('netflix', netflix, netflixGray)
       }}
+      style={{margin: 25}}
     />
     </View>
     <View style={{flexDirection:'row', margin: 10}}>
@@ -87,6 +88,7 @@ class Settings extends Component {
         this.props.toggleService('hulu')
         this.changeState('hulu', hulu, huluGray)
       }}
+      style={{margin: 25}}
     />
     </View>
     <View style={{flexDirection:'row', margin: 10}}>
@@ -101,6 +103,7 @@ class Settings extends Component {
         this.props.toggleService('amazon')
         this.changeState('amazon', prime, primeGray)
       }}
+      style={{margin: 25}}
     />
     </View>
     <View style={{flexDirection:'row', margin: 10}}>
@@ -115,6 +118,7 @@ class Settings extends Component {
         this.props.toggleService('plex')
         this.changeState('plex', plex, plexGray)
       }}
+      style={{margin: 25}}
     />
     </View>
      <Text style={{padding: 10, color: 'white', fontSize: 20}}>Use the service icons to change which content you see</Text>  

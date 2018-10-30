@@ -17,7 +17,6 @@ var appName = '';
 var appStoreId = '';
 var appStoreLocale = 'us';
 var playStoreId = '';
-
 class Movie extends Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.getParam('item').Title,
@@ -77,6 +76,7 @@ class Movie extends Component {
             }}>
             <ScrollView style={{top: Platform.OS === 'ios' ? 85 : 0}}>
               <TouchableHighlight onPress={() => {
+ 
                 AppLink.maybeOpenURL(url, {appName, appStoreId, appStoreLocale, playStoreId}).then(() => {
 
                 })
@@ -84,12 +84,17 @@ class Movie extends Component {
                   console.log(err);
                 });
               }}
-              style={{margin: 10, marginBottom: 0}}
               >
+                <View>
                 <Image
                   style={{width: width, height: 300}}
                   source={{uri: item.Poster}}
                 />
+                  <Image
+                  style={{width: 150, height: 150, position: 'absolute', left: (width/2) - 75, top: 150 - 75 }}
+                  source={require('./assets/playButton.png')}
+                />
+                </View>
                 </TouchableHighlight>
                 <View style={{flexDirection: 'row'}}>
                 <Text style={{color: 'white', paddingTop: 5, paddingLeft: 5, paddingBottom: 5, fontSize: 30}}>{item.Title}</Text>
@@ -113,6 +118,7 @@ class Movie extends Component {
                 <Text style={styles.plot}>{item.Plot}</Text>
                 <Text style={styles.subinfo}>Starring: {item.Actors}</Text>
                 <Text style={styles.subinfo}>Director: {item.Director}</Text>
+            
             </ScrollView>
       </LinearGradient>
     )
